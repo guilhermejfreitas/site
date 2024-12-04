@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oi, sou o Guilherme</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+    }
+
+    .container {
+      font-size: 2rem;
+      padding: 20px;
+      max-width: 90%;
+    }
+
+    #dynamic-text-container {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .cursor {
+      font-weight: bold;
+      margin-left: 2px;
+      animation: blink 0.6s step-end infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .social-icons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 2rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #4e9f3d; /* Cor ao passar o mouse */
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="static-text">Olá, Guilherme aqui.&nbsp;</span>
+    <br/>
+    <div id="dynamic-text-container">
+      &nbsp;<span id="dynamic-text"></span>
+      <span class="cursor">|</span>
+    </div>
+
+    <!-- Ícones de Redes Sociais -->
+    <div class="social-icons">
+      <a href="https://www.linkedin.com/in/guilhermejfds" target="_blank">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/guilhermejfreitas" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="seu-cv.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const messages = [
+      "Sou Desenvolvedor Backend.",
+      "6 anos de experiência na área.",
+      "Dezenas de aplicações desenvolvidas com performance e qualidade.",
+      "Vamos trabalhar juntos?"
+    ];
+
+    let messageIndex = 0;
+    let charIndex = 0;
+    const typingSpeed = 100; // Velocidade de digitação (ms)
+    const erasingSpeed = 50; // Velocidade de apagar (ms)
+    const delayBetweenMessages = 2000; // Tempo de espera entre mensagens (ms)
+
+    const dynamicTextElement = document.getElementById("dynamic-text");
+
+    function typeMessage() {
+      if (charIndex < messages[messageIndex].length) {
+        dynamicTextElement.textContent += messages[messageIndex][charIndex];
+        charIndex++;
+        setTimeout(typeMessage, typingSpeed);
+      } else {
+        setTimeout(eraseMessage, delayBetweenMessages);
+      }
+    }
+
+    function eraseMessage() {
+      if (charIndex > 0) {
+        dynamicTextElement.textContent = messages[messageIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(eraseMessage, erasingSpeed);
+      } else {
+        messageIndex = (messageIndex + 1) % messages.length;
+        setTimeout(typeMessage, typingSpeed);
+      }
+    }
+
+    // Inicializa a digitação
+    typeMessage();
+  </script>
+</body>
+</html>
