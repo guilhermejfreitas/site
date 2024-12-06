@@ -58,6 +58,21 @@
       color: #4e9f3d; /* Cor ao passar o mouse */
     }
 
+    #language-select-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    #language-select {
+      background-color: #121212;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
     @media (max-width: 768px) {
       .container {
         font-size: 1.5rem;
@@ -72,6 +87,14 @@
   </style>
 </head>
 <body>
+  <div id="language-select-container">
+    <select id="language-select" onchange="changeLanguage()">
+      <option value="pt-BR" data-flag="🇧🇷">🇧🇷 Português</option>
+      <option value="en" data-flag="🇺🇸">🇺🇸 English</option>
+      <option value="es" data-flag="🇪🇸">🇪🇸 Español</option>
+    </select>
+  </div>
+
   <div class="container">
     <span class="static-text">Olá, Guilherme aqui.&nbsp;</span>
     <br/>
@@ -95,21 +118,46 @@
   </div>
 
   <script>
-    const messages = [
-      "Sou Desenvolvedor Backend.",
-      "6 anos de experiência na área.",
-      "Dezenas de aplicações desenvolvidas com performance e qualidade.",
-      "Vamos trabalhar juntos?"
-    ];
-
+    const translations = {
+      "pt-BR": {
+        staticText: "Olá, Guilherme aqui.",
+        messages: [
+          "Sou Desenvolvedor Backend.",
+          "6 anos de experiência na área.",
+          "Dezenas de aplicações desenvolvidas com performance e qualidade.",
+          "Vamos trabalhar juntos?"
+        ]
+      },
+      "en": {
+        staticText: "Hi, Guilherme here.",
+        messages: [
+          "I am a Backend Developer.",
+          "6 years of experience in the field.",
+          "Dozens of high-performance and quality applications developed.",
+          "Shall we work together?"
+        ]
+      },
+      "es": {
+        staticText: "Hola, Guilherme aquí.",
+        messages: [
+          "Soy un Desarrollador Backend.",
+          "6 años de experiencia en el área.",
+          "Docenas de aplicaciones desarrolladas con rendimiento y calidad.",
+          "¿Trabajamos juntos?"
+        ]
+      }
+    };
+  
     let messageIndex = 0;
     let charIndex = 0;
     const typingSpeed = 100; // Velocidade de digitação (ms)
     const erasingSpeed = 50; // Velocidade de apagar (ms)
     const delayBetweenMessages = 2000; // Tempo de espera entre mensagens (ms)
-
+  
     const dynamicTextElement = document.getElementById("dynamic-text");
-
+    const staticTextElement = document.querySelector(".static-text");
+    let messages = translations["pt-BR"].messages;
+  
     function typeMessage() {
       if (charIndex < messages[messageIndex].length) {
         dynamicTextElement.textContent += messages[messageIndex][charIndex];
@@ -119,7 +167,7 @@
         setTimeout(eraseMessage, delayBetweenMessages);
       }
     }
-
+  
     function eraseMessage() {
       if (charIndex > 0) {
         dynamicTextElement.textContent = messages[messageIndex].substring(0, charIndex - 1);
@@ -130,9 +178,25 @@
         setTimeout(typeMessage, typingSpeed);
       }
     }
-
+  
+    function changeLanguage() {
+      const selectedLanguage = document.getElementById("language-select").value;
+      const translation = translations[selectedLanguage];
+  
+      // Atualiza o texto fixo
+      staticTextElement.textContent = translation.staticText;
+  
+      // Atualiza as mensagens dinâmicas
+      messages = translation.messages;
+      messageIndex = 0;
+      charIndex = 0;
+      dynamicTextElement.textContent = ""; // Limpa o texto atual
+     
+    }
+  
     // Inicializa a digitação
     typeMessage();
   </script>
+  
 </body>
 </html>
